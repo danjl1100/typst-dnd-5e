@@ -5,43 +5,43 @@
 #set text(font: "New Computer Modern")
 
 // Base stats (10 = normal)
-#let strength = 14
-#let dexterity = 9
-#let constitution = 13
+#let strength = 10
+#let dexterity = 15
+#let constitution = 15
 #let intelligence = 8
-#let wisdom = 16
+#let wisdom = 8
 #let charisma = 18
 // Proficiency bonus (e.g. 2 for +2)
-#let proficiency_bonus = 2
+#let proficiency_bonus = 4
 // Center stat block
-#let armor_class = 18
+#let armor_class = 15 // Dragon Hide
 #let initiative = 2
 #let speed = 30
 // Proficiency (true/false) for Saving Throws
-#let prof_save_strength = true
+#let prof_save_strength = false
 #let prof_save_dexterity = false
 #let prof_save_constitution = false
 #let prof_save_intelligence = false
-#let prof_save_wisdom = false
+#let prof_save_wisdom = true
 #let prof_save_charisma = true
 // Proficiency (true/false) for Skills
-#let prof_skill_acrobatics = true
+#let prof_skill_acrobatics = false
 #let prof_skill_animal = false
 #let prof_skill_arcana = true
-#let prof_skill_athletics = true
-#let prof_skill_deception = false
+#let prof_skill_athletics = false
+#let prof_skill_deception = true
 #let prof_skill_history = false
 #let prof_skill_insight = false
-#let prof_skill_intimidation = true
+#let prof_skill_intimidation = false
 #let prof_skill_investigation = false
 #let prof_skill_medicine = false
 #let prof_skill_nature = false
-#let prof_skill_perception = true
-#let prof_skill_performance = true
-#let prof_skill_persuasion = true
-#let prof_skill_religion = false
-#let prof_skill_sleight_of_hand = false
-#let prof_skill_stealth = true
+#let prof_skill_perception = false
+#let prof_skill_performance = false
+#let prof_skill_persuasion = false
+#let prof_skill_religion = true
+#let prof_skill_sleight_of_hand = true
+#let prof_skill_stealth = false
 #let prof_skill_survival = false
 
 #let caption(label) = [
@@ -84,7 +84,7 @@
   ])
 ]))
 
-#let modifier_num(stat, proficient) = calc.floor((stat - 10) / 2) + (if proficient { 1 } else { 0 })
+#let modifier_num(stat, proficient) = calc.floor((stat - 10) / 2) + (if proficient { proficiency_bonus } else { 0 })
 #let modifier_fmt(modifier) = if modifier > 0 [+#modifier] else [#modifier]
 #let modifier(stat, proficient) = box(modifier_fmt(modifier_num(stat, proficient)))
 
