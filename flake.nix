@@ -1,8 +1,6 @@
 {
-  description = "advent of code 2023";
-
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -80,7 +78,7 @@
           nativeBuildInputs = [
             pkgs.alejandra
             pkgs.typst
-            pkgs.typstfmt
+            pkgs.typstyle
           ];
         };
       }
