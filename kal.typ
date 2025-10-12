@@ -113,6 +113,7 @@
 
 #let spell = (
   // which of `base_stats` to use for spellcasting ability modifier
+  casting_level: 5,
   save_dc_ability: "charisma",
   slots: (
     (label: "5th Level", count: 3),
@@ -121,8 +122,18 @@
   list: (
     "Eldritch Blast",
     "Mind Sliver",
-    "Toll The Dead",
+    "Toll the Dead",
+    "Witch Bolt",
+    "Mind Spike",
+    // "Shadow Blade",
+    // "Counterspell",
+    // "Enemies Abound",
+    // "Fear",
+    // "Summon Lesser Demons",
+    // "Dream",
     "Polymorph", // once per day
+    "Circle of Death", // once per day
+    // "Evard's Black Tentacles"
   ),
 )
 

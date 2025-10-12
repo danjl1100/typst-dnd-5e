@@ -455,7 +455,12 @@
           grid.cell(colspan: 2, [
             #text
             #linebreak()
-            #if "text_fn" in s { s.at("text_fn")(title.level) } else []
+            #if "text_fn" in s {
+              s.at("text_fn")(
+                player_level: title.level,
+                casting_level: spell.casting_level,
+              )
+            } else []
           ]),
         )
       ]

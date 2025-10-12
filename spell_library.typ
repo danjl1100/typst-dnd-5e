@@ -12,7 +12,7 @@
       On a hit, the target takes *1d10* force damage.
     ],
     text_fn: (
-      player_level => [
+      (player_level: 0, casting_level: 0) => [
         #let beams_num = if player_level >= 17 {
           4
         } else if player_level >= 11 {
@@ -39,7 +39,7 @@
       The target must succeed on an Intelligence saving throw or take *1d6* psychic damage and subtract *1d4* from the next saving throw it makes before the end of your next turn.
     ],
     text_fn: (
-      player_level => [
+      (player_level: 0, casting_level: 0) => [
         #let damage = if player_level >= 17 {
           [4d6]
         } else if player_level >= 11 {
@@ -49,7 +49,7 @@
       ]
     ),
   ),
-  "Toll The Dead": (
+  "Toll the Dead": (
     level: 0,
     school: "necromancy",
     cast_time: "1 action",
@@ -62,7 +62,7 @@
       If the target is missing any of its hit points, it instead takes *1d12* necrotic damage.
     ],
     text_fn: (
-      player_level => [
+      (player_level: 0, casting_level: 0) => [
         #let damage = if player_level >= 17 {
           [4d8 or 4d12]
         } else if player_level >= 11 {
@@ -103,7 +103,77 @@
       The creature can't activate, use, wield, or otherwise benefit from any of its equipment.
     ],
   ),
-  // "Circle of Death": (
-  //   level: 6,
+  "Circle of Death": (
+    level: 6,
+    school: "necromancy",
+    cast_time: "1 action",
+    range: "150 feet (60 ft. cube)",
+    components: ("V", "S", "M"),
+    duration: "Instantaneous",
+    text: [
+      A sphere of negative energy ripples out from a 60-foot-radius sphere from a point within range.
+      Each creature in that area must make a Constitution saving throw.
+      A target takes *8d6* necrotic damage on a failed save, or half as much damage on a successful one.
+    ],
+    text_fn: (
+      (player_level: 0, casting_level: 0) => [
+        #let damage = [#((2 * calc.max(0, casting_level - 6)) + 8)d6]
+        At #casting_level level casting: *#damage* necrotic damage
+      ]
+    ),
+  ),
+  // "Find Familiar": (
+  //   level: 1,
+  //   school: "conjuration (ritual)",
+  //   cast_time: "1 hour",
+  //   range: "10 feet",
+  //   components: ("V", "S", "M"), // (10 gp charcoal, incense, herbs consumed by fire in a brass brazier)
+  //   duration: "Instantaneous",
+  //   text: [
+  //     You gain the service of a familiar, a spirit that takes an animal form you choose: bat, cat, crab, frog (toad), hawk, lizard, octopus, owl, poisonous snake, fish (quipper), rat, raven, sea horse, spider, or weasel.
+  //     Appearing in an unoccupied space within range, the familiar has the statistics of the chosen form, though it is a celestial, fey, or fiend (your choice) instead of a beast.
+  //     etc....
+  //   ],
   // ),
+  "Witch Bolt": (
+    level: 1,
+    school: "evocation",
+    cast_time: "1 action",
+    range: "30 feet",
+    components: ("V", "S", "M"),
+    duration: "Concentration, up to 1 minute",
+    text: [
+      A beam of crackling, blue energy lances out toward a creature within range, forming a sustained arc of lighting between you and the target.
+      Make a ranged spell attack against that creature.
+      On a hit, the target takes *1d12* lighting damage, and on each of your turns for the duration, you can use your action to deal *1d12* lighting damage to the target automatically.
+      The spell ends if you use your action to do anything else.
+      The spell also ends if the target is ever outside the spell's range or if it has total cover from you.
+    ],
+    text_fn: (
+      (player_level: 0, casting_level: 0) => [
+        #let damage = [#(casting_level)d12]
+        At #casting_level level casting: *#damage* lighting damage
+      ]
+    ),
+  ),
+  "Mind Spike": (
+    level: 2,
+    school: "divination",
+    cast_time: "1 action",
+    range: "60 feet",
+    components: ("S",),
+    duration: "Concentration, up to 1 hour",
+    text: [
+      You reach into the mind of one creature you can see within range.
+      The target must make a Wisdom saving throw, taking *3d8* psychic damage on a failed save, or half as much damage on a successful one.
+      On a failed save, you also always know the target's location until the spell ends, but only while the two of you are on the same plane of existence.
+      While you have this knowledge, the target can't become hidden from you, and if it's invisible, it gains no benefit from that condition against you.
+    ],
+    text_fn: (
+      (player_level: 0, casting_level: 0) => [
+        #let damage = [#(casting_level)d8]
+        At #casting_level level casting: *#damage* psychic damage
+      ]
+    ),
+  ),
 )
