@@ -119,11 +119,14 @@
 
 #let spell = (
   // which of `base_stats` to use for spellcasting ability modifier
-  casting_level: 5,
+  casting_levels: (5,),
   save_dc_ability: "charisma",
   slots: (
-    (label: "5th Level", count: 3),
-    (label: "Tentacles (per long rest)", count: 1),
+    (label: "5th Level Spell Slot", count: 3),
+    (label: "Polymorph"),
+    (label: "Evard's Tentacles"),
+    (label: "Circle of Death"),
+    (label: "Finger of Death"),
   ),
   cast_by_slot: (
     "Eldritch Blast",
@@ -136,14 +139,14 @@
     "Enemies Abound",
     "Fear",
     "Summon Lesser Demons",
-    // "Dream",
-    // "Evard's Black Tentacles"
-    // NEW "Dimension Door",
+    "Dream",
+    "Dimension Door",
   ),
   cast_by_feat: (
+    "Evard's Black Tentacles": once_per_long_rest,
     "Polymorph": once_per_long_rest,
     "Circle of Death": once_per_long_rest,
-    // NEW "Finger of Death": once_per_long_rest,
+    "Finger of Death": once_per_long_rest,
   ),
 )
 

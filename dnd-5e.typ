@@ -376,8 +376,8 @@
       Spell Save DC: #spell_save_dc
 
       #for slot in spell.slots [
-        #let (label, count) = slot
-        #label
+        #slot.label
+        #let count = if "count" in slot { slot.count } else { 1 }
         #while count > 0 {
           count = count - 1
           $ballot$
@@ -435,7 +435,7 @@
       row-gutter: 5pt,
       column-gutter: 2pt,
       grid.cell(colspan: 2, [
-        === *#name* #emph[level #level - #school]
+        === $bullet$ *#name* #emph[level #level - #school]
       ]),
       ..extras.map(c => grid.cell(colspan: 2, c)),
       [Casting Time:], cast_time,
