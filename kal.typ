@@ -111,6 +111,12 @@
   jewelry: *"Pain"*
 ]
 
+#let once_per_long_rest = (
+  [
+    $ballot$ once per long rest
+  ],
+)
+
 #let spell = (
   // which of `base_stats` to use for spellcasting ability modifier
   casting_level: 5,
@@ -119,21 +125,25 @@
     (label: "5th Level", count: 3),
     (label: "Tentacles (per long rest)", count: 1),
   ),
-  list: (
+  cast_by_slot: (
     "Eldritch Blast",
     "Mind Sliver",
     "Toll the Dead",
     "Witch Bolt",
     "Mind Spike",
-    // "Shadow Blade",
-    // "Counterspell",
-    // "Enemies Abound",
-    // "Fear",
-    // "Summon Lesser Demons",
+    "Shadow Blade",
+    "Counterspell",
+    "Enemies Abound",
+    "Fear",
+    "Summon Lesser Demons",
     // "Dream",
-    "Polymorph", // once per day
-    "Circle of Death", // once per day
     // "Evard's Black Tentacles"
+    // NEW "Dimension Door",
+  ),
+  cast_by_feat: (
+    "Polymorph": once_per_long_rest,
+    "Circle of Death": once_per_long_rest,
+    // NEW "Finger of Death": once_per_long_rest,
   ),
 )
 

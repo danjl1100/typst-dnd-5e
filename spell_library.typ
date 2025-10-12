@@ -1,3 +1,35 @@
+#let suffix_th(number) = {
+  if number == 1 {
+    [#(number)st]
+  } else if number == 2 {
+    [#(number)nd]
+  } else if number == 3 {
+    [#(number)rd]
+  } else {
+    [#(number)th]
+  }
+}
+
+#let at_player_level(player_level) = [
+  Player at #suffix_th(player_level) level:
+]
+#let at_casting_level(casting_level) = [
+  // Using #suffix_th(casting_level) level spell slot:
+  Cast at #suffix_th(casting_level) level:
+]
+
+#let one_increase_5_11_17(number) = {
+  if number >= 17 {
+    4
+  } else if number >= 11 {
+    3
+  } else if number >= 5 {
+    2
+  } else {
+    1
+  }
+}
+
 #let spell_library = (
   "Eldritch Blast": (
     level: 0,
@@ -12,19 +44,13 @@
       On a hit, the target takes *1d10* force damage.
     ],
     text_fn: (
-      (player_level: 0, casting_level: 0) => [
-        #let beams_num = if player_level >= 17 {
-          4
-        } else if player_level >= 11 {
-          3
-        } else if player_level >= 5 {
-          2
-        } else {
-          1
-        }
-        #let beams = if beams_num == 1 [beam] else [beams]
-        At #player_level level: #beams_num #beams of crackling energy
-      ]
+      (player_level: 0, casting_levels: 0) => {
+        let beams_num = one_increase_5_11_17(player_level)
+        let beams = if beams_num == 1 [beam] else [beams]
+        if player_level > 0 [
+          #at_player_level(player_level) #beams_num #beams of crackling energy
+        ]
+      }
     ),
   ),
   "Mind Sliver": (
@@ -39,14 +65,12 @@
       The target must succeed on an Intelligence saving throw or take *1d6* psychic damage and subtract *1d4* from the next saving throw it makes before the end of your next turn.
     ],
     text_fn: (
-      (player_level: 0, casting_level: 0) => [
-        #let damage = if player_level >= 17 {
-          [4d6]
-        } else if player_level >= 11 {
-          [3d6]
-        } else if player_level >= 5 { [2d6] } else { [1d6] }
-        At #player_level level: *#damage* psychic damage
-      ]
+      (player_level: 0, casting_levels: 0) => {
+        let multiplier = one_increase_5_11_17(player_level)
+        if player_level > 0 [
+          #at_player_level(player_level) *#(multiplier)d6* psychic damage
+        ]
+      }
     ),
   ),
   "Toll the Dead": (
@@ -62,18 +86,12 @@
       If the target is missing any of its hit points, it instead takes *1d12* necrotic damage.
     ],
     text_fn: (
-      (player_level: 0, casting_level: 0) => [
-        #let damage = if player_level >= 17 {
-          [4d8 or 4d12]
-        } else if player_level >= 11 {
-          [3d8 or 3d12]
-        } else if player_level >= 5 {
-          [2d8 or 2d12]
-        } else {
-          [1d8 or 1d12]
-        }
-        At #player_level level: *#damage* necrotic damage
-      ]
+      (player_level: 0, casting_levels: 0) => {
+        let multiplier = one_increase_5_11_17(player_level)
+        if player_level > 0 [
+          #at_player_level(player_level) *#(multiplier)d8 or #(multiplier)d12* necrotic damage
+        ]
+      }
     ),
   ),
   "Polymorph": (
@@ -116,10 +134,17 @@
       A target takes *8d6* necrotic damage on a failed save, or half as much damage on a successful one.
     ],
     text_fn: (
-      (player_level: 0, casting_level: 0) => [
-        #let damage = [#((2 * calc.max(0, casting_level - 6)) + 8)d6]
-        At #casting_level level casting: *#damage* necrotic damage
-      ]
+      (player_level: 0, casting_levels: 0) => {
+        casting_levels
+          .map(level => {
+            // every level above 6 adds 2 more d6
+            let damage = [#((2 * calc.max(0, level - 6)) + 8)d6]
+            if level > 0 [
+              #at_casting_level(level) *#damage* necrotic damage
+            ]
+          })
+          .join(linebreak())
+      }
     ),
   ),
   // "Find Familiar": (
@@ -150,10 +175,16 @@
       The spell also ends if the target is ever outside the spell's range or if it has total cover from you.
     ],
     text_fn: (
-      (player_level: 0, casting_level: 0) => [
-        #let damage = [#(casting_level)d12]
-        At #casting_level level casting: *#damage* lighting damage
-      ]
+      (player_level: 0, casting_levels: 0) => {
+        casting_levels
+          .map(level => {
+            let damage = [#(level)d12]
+            if level > 0 [
+              #at_casting_level(level) *#damage* lighting damage
+            ]
+          })
+          .join(linebreak())
+      }
     ),
   ),
   "Mind Spike": (
@@ -170,10 +201,181 @@
       While you have this knowledge, the target can't become hidden from you, and if it's invisible, it gains no benefit from that condition against you.
     ],
     text_fn: (
-      (player_level: 0, casting_level: 0) => [
-        #let damage = [#(casting_level)d8]
-        At #casting_level level casting: *#damage* psychic damage
-      ]
+      (player_level: 0, casting_levels: 0) => {
+        casting_levels
+          .map(level => {
+            let damage = [#(calc.max(3, level))d8]
+            if level > 0 [
+              #at_casting_level(level) *#damage* psychic damage
+            ]
+          })
+          .join(linebreak())
+      }
     ),
+  ),
+  "Shadow Blade": (
+    level: 2,
+    school: "illusion",
+    cast_time: "1 action",
+    range: "Self",
+    components: ("V", "S"),
+    duration: "Concentration, up to 1 minute",
+    text: [
+      You weave together threads of shadow to create a sword of solidified gloom in your hand.
+      This magic sword lasts until the spell ends.
+      It counts as a single mele weapon with which you are proficient.
+      It details *2d8* psychic damage on a hit and has the finesse, light, and thrown properties (range 20/60).
+      In addition, when you use the sword to attack a target that is in dim light or darkness, you make the roll with advantage.
+      If you drop the weapon or throw it, it dissipates at the end of the turn.
+      Thereafter, while the spell persists, you can use a bonus action to cause the sword to reappear in your hand.
+    ],
+    text_fn: (
+      (player_level: 0, casting_levels: 0) => {
+        casting_levels
+          .map(level => {
+            let multiplier = if level >= 5 {
+              4
+            } else if level >= 3 {
+              3
+            } else {
+              2
+            }
+            if level > 0 [
+              #at_casting_level(level) *#(multiplier)d8* psychic damage
+            ]
+          })
+          .join(linebreak())
+      }
+    ),
+  ),
+  "Counterspell": (
+    level: 3,
+    school: "abjuration",
+    cast_time: "1 reaction, when you take when you see a creature in range casting a spell",
+    range: "60 feet",
+    components: ("S",),
+    duration: "Instantaneous",
+    text: [
+      You attempt to interrupt a creature in the process of casting a spell.
+      If the creature is casting a spell of *#suffix_th(3)* level or lower, its spell fails and has no effect.
+      If it is casting a spell of #suffix_th(4) level or higher, make an ability check using your spellcasting ability.
+      The DC is 10 + the spell's level.
+
+      On a success, the creature's spell fails and has no effect.
+    ],
+    text_fn: (
+      (player_level: 0, casting_levels: 0) => {
+        casting_levels
+          .map(level => {
+            if level > 0 [
+              #at_casting_level(level) *#suffix_th(calc.max(3, level))* level or lower spells fail
+            ]
+          })
+          .join(linebreak())
+      }
+    ),
+  ),
+  "Enemies Abound": (
+    level: 3,
+    school: "enchantment",
+    cast_time: "1 action",
+    range: "120 feet",
+    components: ("V", "S"),
+    duration: "Concentration, up to 1 minute",
+    text: [
+      You reach into the mind of one creature you can see and force it to make an Intelligence saving throw.
+      A creature automatically succeeds if it is immune to being frightened.
+      On a failed save, the target loses the ability to distinguish friend from foe, regarding all creatures it can see as enemies until the spell ends.
+      Each time the target takes damage, it can repeat the saving throw, ending the effect on itself on a success.
+
+      Whenever the affected creature chooses another creature as a target, it must choose the target at random amond the creatures it can see within range of the attack, spell, or other ability it's using.
+      If an enemy provokes an opportunity attack from the affected creature, the creature must make that attack if it is able to.
+    ],
+  ),
+  "Fear": (
+    level: 3,
+    school: "illusion",
+    cast_time: "1 action",
+    range: "Self (30-foot cone)",
+    components: ("V", "S", "M (white feather or the heart of a hen"),
+    duration: "Concentration, up to 1 minute",
+    text: [
+      You project a phantasmal image of a creature's worst fears.
+      Each creature in a 30-foot cone must succeed on a Wisdom saving throw or drop whatever it is holding and become frightened for the duration.
+      While frightened by this spell, a creature must take the Dash action and move away from you by the safest available route on each of its turns, unless there is nowhere to move.
+      If the creature ends its turn in a location where it doesn't have line of sight to you, the creature can make a Wisdom saving throw.
+      On a successful save, the spell ends for that creature.
+    ],
+  ),
+  "Summon Lesser Demons": (
+    level: 3,
+    school: "conjuration",
+    cast_time: "1 action",
+    range: "60 feet",
+    components: (
+      "V",
+      "S",
+      "M (a vial of blood from a humanoid killed within the past 24 hours)",
+    ),
+    duration: "Concentration, up to 1 hour",
+    text: [
+      You utter foul words, summoning demons from the chaos of the Abyss.
+      Roll a *d6* to determine what appears:
+      - 1-2: Two demons of challenge rating 1 or lower
+      - 3-4: Four demons of challenge rating 1/2 or lower
+      - 5-6: Eight demons of challenge rating 1/4 or lower
+
+      The DM chooses the demons, such as manes or dretches, and you choose the unoccupied spaces you can see within range where they appear.
+      A summoned demon disappears when it drops to 0 hit points or when the spell ends.
+
+      The demons are hostile to all creatures, including you.
+      Roll initiative for the summoned demons as a group, which has its own turns.
+      The demons pursue and attack the nearest non-demons to the best of their ability.
+
+      As part of casting the spell, you can form a circle on the ground with the blood used as a material component.
+      The circle is large enough to compass your space.
+      While the spell lasts, the summoned demons can't cross the circle or harm it, and they can't target anyone with it.
+      Using the material component in this manner consumes it when the spell ends.
+    ],
+    text_fn: (
+      (player_level: 0, casting_levels: 0) => {
+        casting_levels
+          .map(level => {
+            if level >= 8 [
+              #at_casting_level(level) summon *three times* as many demons
+            ] else if level >= 7 [
+              #at_casting_level(level) summon *twice* as many demons
+            ] else []
+          })
+          .join(linebreak())
+      }
+    ),
+  ),
+  "TEMPLATE": (
+    level: 0,
+    school: "",
+    cast_time: "",
+    range: "",
+    components: ("",),
+    duration: "",
+    text: [
+      TODO
+    ],
+    // NOTE: remove if empty
+    // text_fn: (
+    //   (player_level: 0, casting_levels: 0) => {
+    //     // PICK ONE OF:
+    //     if player_level > 0 [
+    //       #at_player_level(player_level) TODO
+    //     ]
+    //     casting_levels
+    //       .map(level => {
+    //         if level > 0 [
+    //           #at_casting_level(level) TODO
+    //         ]
+    //       })
+    //       .join(linebreak())
+    //   }
+    // ),
   ),
 )

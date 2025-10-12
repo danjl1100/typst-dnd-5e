@@ -413,61 +413,80 @@
   == Spellbook
 ])
 
-#let spells_by_level = (:)
-#for name in spell.list {
+#let lookup_spell(name) = {
   let spell_elem = spell_library.at(name)
-  let level = str(spell_elem.level) // key must be a string
   spell_elem.name = name
-  if level not in spells_by_level { spells_by_level.insert(level, ()) }
-  spells_by_level.at(level).push(spell_elem)
+  spell_elem
 }
-#for (level, spell_elems) in spells_by_level.pairs().sorted(key: p => p.at(0)) {
-  if level == "0" {
-    [== *Cantrips*]
-  } else {
-    [== *Level #level*]
-  }
-  spell_elems
-    .sorted(key: p => p.name)
-    .map(s => {
-      let (
-        name,
-        level,
-        school,
-        cast_time,
-        range,
-        components,
-        duration,
-        text,
-      ) = s
-      [
-        #grid(
-          columns: 2,
-          row-gutter: 5pt,
-          column-gutter: 2pt,
-          grid.cell(colspan: 2, [
-            === *#name* #emph[level #level - #school]
-          ]),
-          [Casting Time:], cast_time,
-          [Range:], range,
-          [Components:], components.join(", "),
-          [Duration:], duration,
-          grid.cell(colspan: 2, [
-            #text
-            #linebreak()
-            #if "text_fn" in s {
-              s.at("text_fn")(
-                player_level: title.level,
-                casting_level: spell.casting_level,
-              )
-            } else []
-          ]),
-        )
-      ]
-    })
-    .join([
+#let render_spell(s, extras: ()) = {
+  let (
+    name,
+    level,
+    school,
+    cast_time,
+    range,
+    components,
+    duration,
+    text,
+  ) = s
+  [
+    #grid(
+      columns: 2,
+      row-gutter: 5pt,
+      column-gutter: 2pt,
+      grid.cell(colspan: 2, [
+        === *#name* #emph[level #level - #school]
+      ]),
+      ..extras.map(c => grid.cell(colspan: 2, c)),
+      [Casting Time:], cast_time,
+      [Range:], range,
+      [Components:], components.join(", "),
+      [Duration:], duration,
+      grid.cell(colspan: 2, [
+        #text
+        #linebreak()
+        #if "text_fn" in s {
+          s.at("text_fn")(
+            player_level: title.level,
+            casting_levels: spell.casting_levels,
+          )
+        } else []
+      ]),
+    )
+  ]
+}
 
-    ])
+#if "cast_by_slot" in spell {
+  let spells_by_level = (:)
+  for name in spell.cast_by_slot {
+    let spell_elem = lookup_spell(name)
+    let level = str(spell_elem.level) // key must be a string
+    if level not in spells_by_level { spells_by_level.insert(level, ()) }
+    spells_by_level.at(level).push(spell_elem)
+  }
+  for (level, spell_elems) in spells_by_level
+    .pairs()
+    .sorted(key: p => p.at(0)) {
+    if level == "0" {
+      [== *Cantrips*]
+    } else {
+      [== *Level #level*]
+    }
+    spell_elems
+      .sorted(key: p => p.name)
+      .map(render_spell)
+      .join([
+
+      ])
+  }
+}
+
+#if "cast_by_feat" in spell {
+  pagebreak()
+  [== *Spells from Features*]
+  for (name, conditions) in spell.cast_by_feat [
+    #render_spell(lookup_spell(name), extras: conditions)
+  ]
 }
 
 == Content
