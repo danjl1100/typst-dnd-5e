@@ -5,12 +5,15 @@
   bonuses,
   combat,
   equipment,
+  features_and_traits,
   money,
   prof_save,
   prof_skill,
   spell,
   title,
 )
+
+#import "spell_library.typ": spell_library
 
 #let dnd = smallcaps("Dungeons & Dragons")
 #set page(
@@ -282,7 +285,7 @@
           #caption[CLASS]
         ])),
         rect(width: 100%, [
-          #big_number[#combat.initiative]
+          #big_number(modifier_fmt(combat.initiative))
           #caption[INITIATIVE]
         ]),
         rect(width: 100%, [
@@ -394,6 +397,73 @@
     ])
   ],
 )
+
+
+#set page(header: [])
+#pagebreak()
+
+== Features and Traits
+#features_and_traits
+
+#pagebreak()
+
+#set page(columns: 2)
+
+#place(top + center, scope: "parent", float: true, [
+  == Spellbook
+])
+
+#let spells_by_level = (:)
+#for name in spell.list {
+  let spell_elem = spell_library.at(name)
+  let level = str(spell_elem.level) // key must be a string
+  spell_elem.name = name
+  if level not in spells_by_level { spells_by_level.insert(level, ()) }
+  spells_by_level.at(level).push(spell_elem)
+}
+#for (level, spell_elems) in spells_by_level.pairs().sorted(key: p => p.at(0)) {
+  if level == "0" {
+    [== *Cantrips*]
+  } else {
+    [== *Level #level*]
+  }
+  spell_elems
+    .sorted(key: p => p.name)
+    .map(s => {
+      let (
+        name,
+        level,
+        school,
+        cast_time,
+        range,
+        components,
+        duration,
+        text,
+      ) = s
+      [
+        #grid(
+          columns: 2,
+          row-gutter: 5pt,
+          column-gutter: 2pt,
+          grid.cell(colspan: 2, [
+            === *#name* #emph[level #level - #school]
+          ]),
+          [Casting Time:], cast_time,
+          [Range:], range,
+          [Components:], components.join(", "),
+          [Duration:], duration,
+          grid.cell(colspan: 2, [
+            #text
+            #linebreak()
+            #if "text_fn" in s { s.at("text_fn")(title.level) } else []
+          ]),
+        )
+      ]
+    })
+    .join([
+
+    ])
+}
 
 == Content
 #lorem(25)

@@ -1,7 +1,7 @@
 #let title = (
   name: "Kaladan Grrrmmballhyst",
   class: "Warlock", // Pact of the Chain
-  level: 12,
+  level: 13,
   race: "Dragonborn",
   background: "Charlatan",
   alignment: "Neutral Evil",
@@ -53,7 +53,7 @@
 
 #let bonuses = (
   // Proficiency bonus (e.g. 2 for +2)
-  proficiency: 4,
+  proficiency: 5,
 )
 
 #let combat = (
@@ -118,4 +118,38 @@
     (label: "5th Level", count: 3),
     (label: "Tentacles (per long rest)", count: 1),
   ),
+  list: (
+    "Eldritch Blast",
+    "Mind Sliver",
+    "Toll The Dead",
+    "Polymorph", // once per day
+  ),
 )
+
+#let features_and_traits = [
+  Damage Resistances: force, poison
+
+  === The Fathomless (TCE-072)
+  - Patron is the Sea and Unknown Depths
+  - Warlock - regain all spell slots after long *or short rest*
+
+  === Pact of the Chain (PHB-107)
+  - Find Familiar (Shiny black Cobra) is cast
+  - Substitute my attack for Familiar's attack, my reaction for Familiar's reaction
+
+  === Evocations
+  - Gift of the Ever-Living ones (XGE-057)
+    - if regaining HP within 100ft of familiar, always roll the max amount
+  - Investment of the Chain Master (TCE-071)
+    - Bonus Action: familiar attack.
+    - Use my reaction to give my familiar resistance to an attack
+    - If familiar faces a saving throw, use my spell save DC
+  - Voice of the Chain Master (PHB-111)
+    - Telepathy with familiar, senses (in the same plane) and speak my voice through them (NOT spell casting)
+  - Feat: Dragon Fear (XGE-074)
+    - Angered -> radiate *MENACE*: +1 to either STR or CONS or CHAR (max 20)
+    - Frightened if roar... (see XGE-074)
+
+  - Sculptor of Flesh
+    - Cast *Polymorph* once using a warlock spell slot, Once per long rest $ballot$
+]
