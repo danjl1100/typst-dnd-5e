@@ -33,6 +33,8 @@
 #let spell_library = (
   "Eldritch Blast": (
     level: 0,
+    burst_sustained: "burst",
+    offense_defense: "offense",
     school: "evocation",
     cast_time: "1 action",
     range: "120 feet",
@@ -55,6 +57,8 @@
   ),
   "Mind Sliver": (
     level: 0,
+    burst_sustained: "burst",
+    offense_defense: "offense",
     school: "enchantment",
     cast_time: "1 action",
     range: "60 feet",
@@ -75,6 +79,8 @@
   ),
   "Toll the Dead": (
     level: 0,
+    burst_sustained: "burst",
+    offense_defense: "offense",
     school: "necromancy",
     cast_time: "1 action",
     range: "60 feet",
@@ -96,6 +102,8 @@
   ),
   "Polymorph": (
     level: 6,
+    burst_sustained: "sustained",
+    offense_defense: "defense",
     school: "transmutation",
     cast_time: "1 action",
     range: "60 feet",
@@ -123,6 +131,8 @@
   ),
   "Circle of Death": (
     level: 6,
+    burst_sustained: "burst",
+    offense_defense: "offense",
     school: "necromancy",
     cast_time: "1 action",
     range: "150 feet (60 ft. cube)",
@@ -162,6 +172,8 @@
   // ),
   "Witch Bolt": (
     level: 1,
+    burst_sustained: "sustained",
+    offense_defense: "offense",
     school: "evocation",
     cast_time: "1 action",
     range: "30 feet",
@@ -189,6 +201,8 @@
   ),
   "Mind Spike": (
     level: 2,
+    burst_sustained: "burst",
+    offense_defense: "defense",
     school: "divination",
     cast_time: "1 action",
     range: "60 feet",
@@ -215,6 +229,8 @@
   ),
   "Shadow Blade": (
     level: 2,
+    burst_sustained: "sustained",
+    offense_defense: "defense",
     school: "illusion",
     cast_time: "1 action",
     range: "Self",
@@ -250,6 +266,8 @@
   ),
   "Counterspell": (
     level: 3,
+    burst_sustained: "burst",
+    offense_defense: "defense",
     school: "abjuration",
     cast_time: "1 reaction, when you take when you see a creature in range casting a spell",
     range: "60 feet",
@@ -277,6 +295,8 @@
   ),
   "Enemies Abound": (
     level: 3,
+    burst_sustained: "sustained",
+    offense_defense: "offense",
     school: "enchantment",
     cast_time: "1 action",
     range: "120 feet",
@@ -294,6 +314,8 @@
   ),
   "Fear": (
     level: 3,
+    burst_sustained: "sustained",
+    offense_defense: "offense",
     school: "illusion",
     cast_time: "1 action",
     range: "Self (30-foot cone)",
@@ -309,6 +331,8 @@
   ),
   "Summon Lesser Demons": (
     level: 3,
+    burst_sustained: "sustained",
+    offense_defense: "offense",
     school: "conjuration",
     cast_time: "1 action",
     range: "60 feet",
@@ -353,6 +377,8 @@
   ),
   "Dream": (
     level: 5,
+    burst_sustained: "sustained",
+    offense_defense: "offense",
     school: "illusion",
     cast_time: "1 minute",
     range: "special",
@@ -386,6 +412,8 @@
   ),
   "Evard's Black Tentacles": (
     level: 4,
+    burst_sustained: "sustained",
+    offense_defense: "offense",
     school: "conjuration",
     cast_time: "1 action",
     range: "90 feet",
@@ -408,6 +436,8 @@
   ),
   "Dimension Door": (
     level: 4,
+    burst_sustained: "burst",
+    offense_defense: "defense",
     school: "conjuration",
     cast_time: "1 action",
     range: "500 feet",
@@ -427,6 +457,8 @@
   ),
   "Finger of Death": (
     level: 7,
+    burst_sustained: "burst",
+    offense_defense: "offense",
     school: "necromancy",
     cast_time: "1 action",
     range: "60 feet",

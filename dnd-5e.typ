@@ -489,5 +489,71 @@
   ]
 }
 
-== Content
-#lorem(25)
+== Combat Spell Grid
+
+#set page(columns: 1)
+
+#let all_spell_names = spell.cast_by_slot + if "cast_by_feat" in spell {
+  spell.cast_by_feat.pairs().map(p => p.at(0))
+} else {
+  ()
+}
+
+#let spells_burst_offense = {
+  all_spell_names
+    .map(lookup_spell)
+    .filter(s => s.burst_sustained == "burst" and s.offense_defense == "offense")
+    .sorted(key: s => s.name)
+}
+
+#let spells_sustained_offense = {
+  all_spell_names
+    .map(lookup_spell)
+    .filter(s => s.burst_sustained == "sustained" and s.offense_defense == "offense")
+    .sorted(key: s => s.name)
+}
+
+#let spells_burst_defense = {
+  all_spell_names
+    .map(lookup_spell)
+    .filter(s => s.burst_sustained == "burst" and s.offense_defense == "defense")
+    .sorted(key: s => s.name)
+}
+
+#let spells_sustained_defense = {
+  all_spell_names
+    .map(lookup_spell)
+    .filter(s => s.burst_sustained == "sustained" and s.offense_defense == "defense")
+    .sorted(key: s => s.name)
+}
+
+#grid(
+  columns: 2,
+  column-gutter: 10pt,
+  row-gutter: 10pt,
+  rect(width: 100%, [
+    #caption[BURST DAMAGE (OFFENSIVE)]
+    #for s in spells_burst_offense [
+      - *#s.name* (L#s.level)
+    ]
+  ]),
+  rect(width: 100%, [
+    #caption[SUSTAINED/CONTROL (OFFENSIVE)]
+    #for s in spells_sustained_offense [
+      - *#s.name* (L#s.level)
+    ]
+  ]),
+
+  rect(width: 100%, [
+    #caption[BURST (DEFENSIVE/TACTICAL)]
+    #for s in spells_burst_defense [
+      - *#s.name* (L#s.level)
+    ]
+  ]),
+  rect(width: 100%, [
+    #caption[SUSTAINED (DEFENSIVE/TACTICAL)]
+    #for s in spells_sustained_defense [
+      - *#s.name* (L#s.level)
+    ]
+  ]),
+)
