@@ -499,32 +499,43 @@
   ()
 }
 
+#let extract_range_feet(range_str) = {
+  let parts = range_str.split(" ")
+  if parts.len() > 0 {
+    let num_str = parts.at(0)
+    if num_str == "Self" { 0 }
+    else if num_str == "Touch" { 5 }
+    else if num_str == "special" { 999 }
+    else { int(num_str) }
+  } else { 999 }
+}
+
 #let spells_burst_offense = {
   all_spell_names
     .map(lookup_spell)
     .filter(s => s.burst_sustained == "burst" and s.offense_defense == "offense")
-    .sorted(key: s => s.name)
+    .sorted(key: s => extract_range_feet(s.range))
 }
 
 #let spells_sustained_offense = {
   all_spell_names
     .map(lookup_spell)
     .filter(s => s.burst_sustained == "sustained" and s.offense_defense == "offense")
-    .sorted(key: s => s.name)
+    .sorted(key: s => extract_range_feet(s.range))
 }
 
 #let spells_burst_defense = {
   all_spell_names
     .map(lookup_spell)
     .filter(s => s.burst_sustained == "burst" and s.offense_defense == "defense")
-    .sorted(key: s => s.name)
+    .sorted(key: s => extract_range_feet(s.range))
 }
 
 #let spells_sustained_defense = {
   all_spell_names
     .map(lookup_spell)
     .filter(s => s.burst_sustained == "sustained" and s.offense_defense == "defense")
-    .sorted(key: s => s.name)
+    .sorted(key: s => extract_range_feet(s.range))
 }
 
 #grid(
@@ -534,26 +545,26 @@
   rect(width: 100%, [
     #caption[BURST DAMAGE (OFFENSIVE)]
     #for s in spells_burst_offense [
-      - *#s.name* (L#s.level)
+      - *#s.name* (L#s.level, #s.range)
     ]
   ]),
   rect(width: 100%, [
     #caption[SUSTAINED/CONTROL (OFFENSIVE)]
     #for s in spells_sustained_offense [
-      - *#s.name* (L#s.level)
+      - *#s.name* (L#s.level, #s.range)
     ]
   ]),
 
   rect(width: 100%, [
     #caption[BURST (DEFENSIVE/TACTICAL)]
     #for s in spells_burst_defense [
-      - *#s.name* (L#s.level)
+      - *#s.name* (L#s.level, #s.range)
     ]
   ]),
   rect(width: 100%, [
     #caption[SUSTAINED (DEFENSIVE/TACTICAL)]
     #for s in spells_sustained_defense [
-      - *#s.name* (L#s.level)
+      - *#s.name* (L#s.level, #s.range)
     ]
   ]),
 )
