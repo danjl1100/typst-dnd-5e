@@ -489,6 +489,12 @@
   ]
 }
 
+// TODO how to pagebreak **before** the "Compat Spell Grid" header,
+// without a page break between the header and the table
+#pagebreak()
+// TODO also add Pain (cobra, familiar) stats from Venomous Snake
+// <https://www.dndbeyond.com/monsters/4775847-venomous-snake>
+
 == Combat Spell Grid
 
 #set page(columns: 1)
