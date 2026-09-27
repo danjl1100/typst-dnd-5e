@@ -81,7 +81,7 @@
   ],
 )
 
-#let money = (gold: 107)
+#let money = (gold: 7)
 
 #let equipment = [
   - Armor of Resistance (Force), studded
@@ -100,7 +100,7 @@
   - Kobald spellbook
   - Creepy Ring (Rolf)
   - "necklace" for Pain
-  - antitoxin, poison
+  - #strike[antitoxin, poison]
   - hand mirror, landscape
 ]
 
