@@ -105,13 +105,15 @@
   (#stat)
 ])
 
+#let ballot-o = box(rect(height: 1em, width: 1em))
+
 #let skill_based_item(label, stat, proficient, sub_label: []) = {
   let ballot-x = box({
-    $ballot$
+    ballot-o
     place(center + horizon, dy: -0.1em)[#str.from-unicode(0x00D7)]
   })
   (
-    if proficient [#ballot-x] else [$ballot$],
+    if proficient [#ballot-x] else [#ballot-o],
     [
       #set text(8pt, weight: "regular")
       #modifier(base_stats.at(stat), proficient)
@@ -326,8 +328,8 @@
         ]),
         rect(width: 100%, [
           #align(right, [
-            #caption[SUCCESSES $ballot$ $ballot$ $ballot$]
-            #caption[FAILURES $ballot$ $ballot$ $ballot$]
+            #caption[SUCCESSES #ballot-o #ballot-o #ballot-o]
+            #caption[FAILURES #ballot-o #ballot-o #ballot-o]
           ])
           #caption[DEATH SAVES]
         ]),
@@ -375,15 +377,16 @@
     #rect(width: 100%, [
       Spell Save DC: #spell_save_dc
 
-      #for slot in spell.slots [
-        #slot.label
-        #let count = if "count" in slot { slot.count } else { 1 }
-        #while count > 0 {
-          count = count - 1
-          $ballot$
-        }
-
-      ]
+      #for slot in spell.slots {
+        block[
+          #slot.label
+          #let count = if "count" in slot { slot.count } else { 1 }
+          #while count > 0 {
+            count = count - 1
+            ballot-o
+          }
+        ]
+      }
 
       #align(center, [#caption[SPELL SLOTS]])
     ])
@@ -495,9 +498,9 @@
 // TODO also add Pain (cobra, familiar) stats from Venomous Snake
 // <https://www.dndbeyond.com/monsters/4775847-venomous-snake>
 
-== Combat Spell Grid
-
 #set page(columns: 1)
+
+== Combat Spell Grid
 
 #let all_spell_names = spell.cast_by_slot + if "cast_by_feat" in spell {
   spell.cast_by_feat.pairs().map(p => p.at(0))

@@ -111,9 +111,10 @@
   jewelry: *"Pain"*
 ]
 
+#let ballot-o = box(rect(height: 1em, width: 1em))
 #let once_per_long_rest = (
   [
-    $ballot$ once per long rest
+    #ballot-o once per long rest
   ],
 )
 
@@ -175,5 +176,5 @@
     - Frightened if roar... (see XGE-074)
 
   - Sculptor of Flesh
-    - Cast *Polymorph* once using a warlock spell slot, Once per long rest $ballot$
+    - Cast *Polymorph* once using a warlock spell slot, Once per long rest #ballot-o
 ]
