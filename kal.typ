@@ -113,11 +113,10 @@
   jewelry: *"Pain"*
 ]
 
-#let once_per_long_rest = (
-  [
-    #ballot-o once per long rest
-  ],
-)
+#let once_per_long_rest(used) = {
+  let symbol = if used [#ballot-x] else [#ballot-o]
+  ([#symbol once per long rest],)
+}
 
 #let spell = (
   // which of `base_stats` to use for spellcasting ability modifier
@@ -145,10 +144,10 @@
     "Dimension Door",
   ),
   cast_by_feat: (
-    "Evard's Black Tentacles": once_per_long_rest,
-    "Polymorph": once_per_long_rest,
-    "Circle of Death": once_per_long_rest,
-    "Finger of Death": once_per_long_rest,
+    "Evard's Black Tentacles": once_per_long_rest(false),
+    "Polymorph": once_per_long_rest(false),
+    "Circle of Death": once_per_long_rest(false),
+    "Finger of Death": once_per_long_rest(false),
   ),
 )
 
