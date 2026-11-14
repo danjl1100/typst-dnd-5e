@@ -13,6 +13,8 @@
   title,
 )
 
+#import "utils.typ": ballot-o, ballot-x
+
 #import "spell_library.typ": spell_library
 
 #let dnd = smallcaps("Dungeons & Dragons")
@@ -105,13 +107,8 @@
   (#stat)
 ])
 
-#let ballot-o = box(rect(height: 1em, width: 1em))
 
 #let skill_based_item(label, stat, proficient, sub_label: []) = {
-  let ballot-x = box({
-    ballot-o
-    place(center + horizon, dy: -0.1em)[#str.from-unicode(0x00D7)]
-  })
   (
     if proficient [#ballot-x] else [#ballot-o],
     [

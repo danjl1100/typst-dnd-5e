@@ -1,3 +1,5 @@
+#import "utils.typ": ballot-o, ballot-x
+
 #let title = (
   name: "Kaladan Grrrmmballhyst",
   class: "Warlock", // Pact of the Chain
@@ -111,7 +113,6 @@
   jewelry: *"Pain"*
 ]
 
-#let ballot-o = box(rect(height: 1em, width: 1em))
 #let once_per_long_rest = (
   [
     #ballot-o once per long rest
