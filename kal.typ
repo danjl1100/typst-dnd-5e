@@ -21,7 +21,7 @@
   charisma: 18,
 )
 
-// Proficiency (true/false) for Saving Throws
+// Proficiency (true/false) for Saving Throws (and passive wisdom)
 #let prof_save = (
   strength: false,
   dexterity: false,

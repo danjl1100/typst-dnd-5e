@@ -128,7 +128,7 @@
     dexterity: "Dexterity",
     constitution: "Constitution",
     intelligence: "Intelligence",
-    wisdom: "Wisdon",
+    wisdom: "Wisdom",
     charisma: "Charisma",
   )
   skill_based_item(stat_labels.at(stat), stat, prof_save.at(stat))
@@ -201,6 +201,12 @@
       #stat_box([INTELLIGENCE], base_stats.intelligence)
       #stat_box([WISDOM], base_stats.wisdom)
       #stat_box([CHARISMA], base_stats.charisma)
+      #rect(width: 100%, [
+        #caption([Passive Wisdom (Perception)])
+
+        #let passive_wisdom = 10 + modifier_num(base_stats.wisdom, prof_save.wisdom)
+        #passive_wisdom
+      ])
     ],
     align(center)[
       #rect(width: 100%, align(horizon, stack(
