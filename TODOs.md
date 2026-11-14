@@ -1,2 +1,0 @@
-- [ ] fix empty box rendering on macos (maybe a literal box?)
-- [ ] add Passive Perception to list (passive is 10+ the wisdom modifier)
