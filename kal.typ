@@ -162,7 +162,13 @@
 )
 
 #let features_and_traits = [
-  Damage Resistances: force, poison
+  - *Tool* Proficiencies: Disguise Kit; Forgery Kit
+  - *Weapon* Proficiencies: Simple
+  - *Armor* Proficiencies: Light
+  - *Language* Proficiencies: Common; Draconic
+  - *Darkvision* 60ft
+  - Land Vechicles
+  - *Damage Resistances*: force, poison
 
   === The Fathomless (TCE-072)
   - Patron is the Sea and Unknown Depths

@@ -201,7 +201,7 @@
       #stat_box([INTELLIGENCE], base_stats.intelligence)
       #stat_box([WISDOM], base_stats.wisdom)
       #stat_box([CHARISMA], base_stats.charisma)
-      #box()
+      #linebreak()
       #rect(width: 100%, [
         #caption([Passive Wisdom (Perception)])
 
