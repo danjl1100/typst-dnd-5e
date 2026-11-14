@@ -201,6 +201,7 @@
       #stat_box([INTELLIGENCE], base_stats.intelligence)
       #stat_box([WISDOM], base_stats.wisdom)
       #stat_box([CHARISMA], base_stats.charisma)
+      #box()
       #rect(width: 100%, [
         #caption([Passive Wisdom (Perception)])
 
@@ -384,9 +385,10 @@
         block[
           #slot.label
           #let count = if "count" in slot { slot.count } else { 1 }
+          #let used = if "used" in slot { slot.used } else { 0 }
           #while count > 0 {
             count = count - 1
-            ballot-o
+            if used > count { ballot-x } else { ballot-o }
           }
         ]
       }

@@ -1,4 +1,4 @@
-#import "utils.typ": ballot-o, ballot-x
+#import "utils.typ": ballots
 
 #let title = (
   name: "Kaladan Grrrmmballhyst",
@@ -113,22 +113,24 @@
   jewelry: *"Pain"*
 ]
 
-#let once_per_long_rest(used) = {
-  let symbol = if used [#ballot-x] else [#ballot-o]
-  ([#symbol once per long rest],)
+#let once_per_long_rest(attrs) = {
+  [#ballots(used: attrs.used) once per long rest]
 }
+
+#let spell_slots = (
+  "5th Level Spell Slot": (count: 3, used: 0),
+  "Polymorph": (used: 0),
+  "Evard's Tentacles": (used: 0),
+  "Circle of Death": (used: 0),
+  "Finger of Death": (used: 0),
+)
 
 #let spell = (
   // which of `base_stats` to use for spellcasting ability modifier
   casting_levels: (5,),
   save_dc_ability: "charisma",
-  slots: (
-    (label: "5th Level Spell Slot", count: 3),
-    (label: "Polymorph"),
-    (label: "Evard's Tentacles"),
-    (label: "Circle of Death"),
-    (label: "Finger of Death"),
-  ),
+  slots:
+    spell_slots.pairs().map(((label, fields)) => (label: label, ..fields)),
   cast_by_slot: (
     "Eldritch Blast",
     "Mind Sliver",
@@ -144,10 +146,18 @@
     "Dimension Door",
   ),
   cast_by_feat: (
-    "Evard's Black Tentacles": once_per_long_rest(false),
-    "Polymorph": once_per_long_rest(false),
-    "Circle of Death": once_per_long_rest(false),
-    "Finger of Death": once_per_long_rest(false),
+    "Evard's Black Tentacles": (
+      once_per_long_rest(spell_slots.at("Evard's Tentacles")),
+    ),
+    "Polymorph": (
+      once_per_long_rest(spell_slots.Polymorph),
+    ),
+    "Circle of Death": (
+      once_per_long_rest(spell_slots.at("Circle of Death")),
+    ),
+    "Finger of Death": (
+      once_per_long_rest(spell_slots.at("Finger of Death")),
+    ),
   ),
 )
 
@@ -176,5 +186,5 @@
     - Frightened if roar... (see XGE-074)
 
   - Sculptor of Flesh
-    - Cast *Polymorph* once using a warlock spell slot, Once per long rest #ballot-o
+    - Cast *Polymorph* once using a warlock spell slot, #once_per_long_rest(spell_slots.Polymorph)
 ]
