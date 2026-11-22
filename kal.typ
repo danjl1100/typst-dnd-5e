@@ -1,7 +1,11 @@
 #import "utils.typ": ballots
 
 #let title = (
-  name: "Kaladan Grrrmmballhyst",
+  name: [
+    Kaladan Grrrmmballhyst
+
+    *EXHAUSTION POINTS = 2*
+  ],
   class: "Warlock", // Pact of the Chain
   level: 13,
   race: "Dragonborn",
