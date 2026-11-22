@@ -67,6 +67,7 @@
   movement_note: "breathe underwater",
   hit_point_maximum: 89,
   hit_point_temporary: 10, // daily
+  hit_point_changes: (), // Example:  (-5,)   or (-2, -7, -9, -20, -500)
   hit_dice: "9x(1d8+2)",
 )
 

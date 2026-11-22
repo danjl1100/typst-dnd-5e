@@ -189,6 +189,17 @@
   #money.at(key, default: [])
 ]
 
+#let hit_point_tally(maximum, changes) = {
+  let current = maximum
+  let history = (current,)
+  for change in changes {
+    // Healing can't exceed the maximum; damage can't drop below 0
+    current = calc.clamp(current + change, 0, maximum)
+    history.push(current)
+  }
+  [#history.map(str).join([ ])]
+}
+
 #grid(
   columns: (1fr, 1fr, 1fr),
   // LEFT column - Stat column, and saving throws / skills column
@@ -310,7 +321,9 @@
       #rect(width: 100%, [
         #caption[Hit point maximum: #combat.hit_point_maximum]
 
-        #align(left, [#(combat.hit_point_maximum + combat.hit_point_temporary)])
+        #align(left, [
+          #hit_point_tally(combat.hit_point_maximum + combat.hit_point_temporary, combat.hit_point_changes)
+        ])
         #v(20pt)
         #caption[CURRENT HIT POINTS]
       ])
